@@ -356,6 +356,7 @@
         min-width: 160px;
         font-size: 15px;
         box-shadow: 0 0 5px rgba(0,0,0,.1);
+        background-color: #fff;
     }
     nav .notify .drop-menu ul{
         padding: 10px 0;
