@@ -1,3 +1,19 @@
+@media (max-width:768px) {
+    .logo {
+        display:none;
+    }
+    html,body {
+        background:#fff!important;
+    }
+    .main {
+        box-shadow: none;
+        margin:0 auto;
+    }
+}
+html,body {
+    height:100%;
+    background-color:#f1f1f1!important;
+}
 .sign {
     height:100%;
     font-size:14px;
@@ -11,7 +27,7 @@
 .logo img {
     width:100px;
 }
-.sign .main {
+.main {
     width:400px;
     margin:50px auto 0;
     padding:50px 50px 30px;
@@ -20,7 +36,7 @@
     box-shadow: 0 0 8px rgba(0,0,0,.1);
     display:inline-block;
 }
-.sign .main .title {
+.main .title {
     margin:0 auto 50px;
     padding:10px;
     color:#939393;
@@ -29,26 +45,26 @@
     margin:0;
     font-size:18px;
 }
-.sign .main .title h4 a,.main .title h4 b {
+.main .title h4 a,.main .title h4 b {
     padding:10px;
 }
-.sign .main .title h4 a.active {
+.main .title h4 a.active {
     font-weight:700;
     color:#ea6f5a!important;
     border-bottom:2px solid #ea6f5a;
 }
-.sign .main .title h4 a:hover {
+.main .title h4 a:hover {
     border-bottom:2px solid #ea6f5a;
 }
-.sign .main form {
+.main form {
     margin:0 0 30px;
     color:#969696;
 }
-.sign .main form .input-prepend {
+.main form .input-prepend {
     position:relative;
     width:100%;
 }
-.sign .main form .input-prepend input {
+.main form .input-prepend input {
     width:100%;
     height:50px;
     padding:4px 12px 4px 35px;
@@ -56,25 +72,25 @@
     border-bottom:none;
     background-color:rgb(248,248,248)
 }
-.sign .main form input.top-radius {
+.main form input.top-radius {
     border-radius:4px 4px 0 0;
 }
-.sign .main form input.bottom-radius {
+.main form input.bottom-radius {
     border-radius:0 0 4px 4px;
     border-bottom:1px solid #c8c8c8;
 }
-.sign .main form .input-prepend i {
+.main form .input-prepend i {
     position:absolute;
     color:#969696;
     top:15px;
     left:15px;
     font-size:20px;
 }
-.sign .main form .remember {
+.main form .remember {
     float:left;
     margin:25px 0;
 }
-.sign .main form .help {
+.main form .help {
     float:right;
     margin:25px 0;
 }
@@ -84,13 +100,13 @@
     height:45px;
     border-radius: 20px;
 }
-.sign .main .more-sign p {
+.main .more-sign p {
     position:relative;
     font-size:14px;
     color:#b8b8b8;
     margin-bottom:20px;
 }
-.sign .main .more-sign p:before {
+.main .more-sign p:before {
     content:"";
     width:60px;
     border-bottom:1px solid #b8b8b8;
@@ -98,7 +114,7 @@
     top:10px;
     left:30px;
 }
-.sign .main .more-sign p:after {
+.main .more-sign p:after {
     content:"";
     width:60px;
     border-bottom:1px solid #b8b8b8;
@@ -106,52 +122,52 @@
     top:10px;
     right:30px;
 }
-.sign .main .more-sign ul {
+.main .more-sign ul {
     margin-bottom:20px;
 }
-.sign .main .more-sign ul li {
+.main .more-sign ul li {
     display:inline-block;
     border-radius: 50%;
     color:white;
     margin:0 5px;
 }
-.sign .main .more-sign ul li.weibo {
+.main .more-sign ul li.weibo {
     background:#e05244;
 }
-.sign .main .more-sign ul li.weixin {
+.main .more-sign ul li.weixin {
     background:#00bb29;
 }
-.sign .main .more-sign ul li.qq {
+.main .more-sign ul li.qq {
     background:#498ad5;
 }
-.sign .main .more-sign ul li a {
+.main .more-sign ul li a {
     width:50px;
     height:50px;
     line-height:50px;
     display:block;
 }
-.sign .main .more-sign ul li.other {
+.main .more-sign ul li.other {
     background:rgb(248,248,248);
     color:#939393;
 }
-.sign .main .more-sign ul li a i {
+.main .more-sign ul li a i {
     font-size:25px;
 }
 .main form input.sign-up-btn {
     margin-top:20px;
 }
-.sign .main form p.sign-up-msg {
+.main form p.sign-up-msg {
     margin:15px 0;
     text-align:center;
     font-size:12px;
     line-height:20px;
     color:#969696;
 }
-.sign .main form .ssm {
+.main form .ssm {
     position:relative;
     line-height:36px;
 }
-.sign .main form .input-prepend a.send-ssm {
+.main form .input-prepend a.send-ssm {
     position:absolute;
     top:7px;
     right:10px;
@@ -163,18 +179,7 @@
     opacity: .8;
     color:#fff!important;
 }
-@media (max-width:768px) {
-    .logo {
-        display:none;
-    }
-    #sign-template {
-        background:#fff!important;
-    }
-    .sign .main {
-        box-shadow: none;
-        margin:0 auto;
-    }
-}
+
 
 
 
