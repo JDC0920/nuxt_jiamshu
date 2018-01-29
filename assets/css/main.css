@@ -1,3 +1,24 @@
+/************************公共样式************************/
+*{
+    box-sizing: border-box;
+}
+html,body{
+    height: 100%;
+    background-color: #fff;
+    color: #333;
+}
+#__nuxt{
+    height:100%;
+}
+#sign-template{
+    height: 100%;
+    background-color: #f1f1f1;
+}
+#default-template{
+    height: 100%;
+    padding-top: 56px;
+    background-color: #fff;
+}
 a,a:hover,a:focus {
     text-decoration: none!important;
     color:inherit!important;
@@ -11,8 +32,37 @@ h1,h2,h3,h4,h5,h6 {
 }
 ul,ol,dl {
     list-style:none;
-    margin:0;
+    margin:0!important;
     padding:0;
 }
-
+@media (min-width: 992px) {
+    .my-container{
+        width: 960px;
+        margin: 0 auto;
+    }
+}
+@media (max-width: 1080px) {
+    .my-container{
+        width: 750px;
+        margin: 0 auto;
+    }
+}
+/*******************************首页布局*****************************/
+.index {
+    padding-top: 30px;
+}
+.index .main {
+    padding-right: 0;
+}
+.index .aside{
+    padding: 0 0 0 4.1667%;
+}
+.index .main .banner img {
+    width: 100%;
+    border-radius: 4px;
+}
+.index .aside .board img {
+    margin-bottom: 5px;
+    width: 100%;
+}
 
