@@ -54,9 +54,6 @@ ul,ol,dl {
 .index .main {
     padding-right: 0;
 }
-.index .aside{
-    padding: 0 0 0 4.1667%;
-}
 .index .main .banner {
     margin-bottom: 35px;
 }
@@ -100,10 +97,6 @@ ul,ol,dl {
     height: auto;
     border-radius: 4px;
     margin-bottom: 6px;
-}
-.index .aside .board img {
-    margin-bottom: 5px;
-    width: 100%;
 }
 .note-list{
     border: 0;
@@ -181,12 +174,18 @@ ul,ol,dl {
     font-weight: 400;
 }
 .note-list .meta .collection-tag{
+    display: inline-block;
+    vertical-align: middle;
     color: #ea6f5a!important;
     border: 1px solid #ea6f5a;
     padding: 3px 6px;
     border-radius: 4px;
     margin-right: 10px;
     transition: all ease-in .5s;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .note-list .meta .tag{
     margin-right: 10px;
@@ -212,6 +211,135 @@ ul,ol,dl {
     .note-list li.have-img>div{
         padding-right: 135px;
     }
+    .aside .download div{
+        padding-top: 10px!important;
+    }
+}
+.index .main .load-more {
+    display: block;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    color: white!important;
+    background-color: #a5a5a5;
+    border-radius: 20px;
+    margin: 30px auto 60px;
+    padding: 10px 15px;
+    font-size: 15px;
+}
+
+/*右边*/
+.index .aside{
+    padding: 0 0 0 4.1667%;
+}
+.index .aside .board img {
+    margin-bottom: 5px;
+    width: 100%;
+}
+.recommend-author {
+    margin-bottom: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+.recommend-author .title {
+    text-align: left;
+    color: #969696;
+}
+.recommend-author .title .page-change{
+    float: right;
+    color: #969696;
+}
+.recommend-author .title .page-change i{
+    transition: ease .2s;
+}
+.recommend-author .list{
+    margin-bottom: 20px;
+    text-align: left;
+}
+.recommend-author .list li {
+    margin-top: 15px;
+}
+.recommend-author .list li .avatar {
+    float: left;
+    width: 48px;
+    height: 48px;
+    margin-right: 10px;
+}
+.recommend-author .list li .follow{
+    float: right;
+    font-size: 13px;
+    margin-top: 5px;
+    color: #42c02e!important;
+}
+.recommend-author .list li .name {
+    padding-top: 5px;margin-right: 60px;
+    font-size: 14px;
+    display: block;
+}
+.recommend-author .list li p{
+    color: #969696;
+    font-size: 12px;
+}
+.recommend-author .find-more{
+    display: block;
+    width: 100%;
+    padding: 7px 7px 7px 12px;
+    color: #787878!important;
+    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+    font-size: 13px;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+.recommend-author .find-more i{
+    font-size: 18px;
+    margin-left: 3px;
+}
+.aside .download {
+    width: 100%;
+    /*min-height: 100px;*/
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    /*background-color: #fff;*/
+    padding: 7px 10px;
+    margin-bottom: 30px;
+    display: flex;
+}
+.aside .download img{
+    display: inline-block;
+    width: 40%;
+    height: 40%;
+}
+.aside .download div{
+    padding: 30px 0 0 10px;
+    font-size: 13px;
+    color: #969696;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.footer a{
+    display: inline-block;
+    color: #969696!important;
+    font-size: 13px;
+}
+.footer a:hover{
+    color: #333!important;
+}
+.footer em{
+    color: #969696!important;
+    font-size: 13px;
 }
 
 
