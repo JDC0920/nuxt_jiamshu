@@ -2,6 +2,13 @@
 *{
     box-sizing: border-box;
 }
+.clearfix:after{
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
 html,body{
     height: 100%;
     background-color: #fff;
@@ -419,6 +426,7 @@ ul,ol,dl {
     font-size: 12px;
     color: #c8c8c8;
 }
+/***************************文章下面******************************/
 .note .post .article .follow-detail {
     padding: 20px;
     background-color: #f8f8f8;
@@ -441,7 +449,157 @@ ul,ol,dl {
 .note .post .article .follow-detail .following {
     text-decoration: none;
 }
-
+.note .post .article .follow-detail .title{
+    font-size: 17px;
+    line-height: 1.8;
+    margin-right: 5px;
+}
+.note .post .article .follow-detail .info>i{
+    color: #3194d0;
+    font-size: 15px;
+}
+.note .post .article .follow-detail .info>p{
+    color: #969696;
+    margin-bottom: 0;
+    font-size: 12px;
+}
+.note .post .article .follow-detail .signature {
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    color: #969696;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+}
+.note .post .article .meta-bottom {
+    margin-top: 40px;
+    margin-bottom: 80px;
+}
+.note .post .article .meta-bottom .like {
+    display: inline-block;
+}
+.note .post .article .meta-bottom .share-group{
+    float: right;
+}
+.note .post .article .meta-bottom .like-group {
+    border: 1px solid #ea6f5a;
+    padding: 13px 0 15px;
+    border-radius: 40px;
+}
+.note .post .article .meta-bottom .like-group:hover {
+    background-color: rgb(254,247,245);
+}
+.note .post .article .meta-bottom .like .active {
+    background-color: #ea6f5a;
+}
+.note .post .article .meta-bottom .like .color {
+    color: #fff!important;
+}
+.note .post .article .meta-bottom .like .colors {
+    color: #fff!important;
+    border-left: 1px solid #ffffff!important;
+}
+.note .post .article .meta-bottom .like-group .btn-like{
+    display: inline-block;
+    font-size: 19px;
+    color: #ea6f5a;
+}
+.note .post .article .meta-bottom .like-group .btn-like a{
+    padding: 18px 15px 18px 30px;
+}
+.note .post .article .meta-bottom .like-group .modal-wrap{
+    display: inline-block;
+    font-size: 18px;
+    border-left: 1px solid #ea6f5a;
+    color: #ea6f5a;
+}
+.note .post .article .meta-bottom .like-group .modal-wrap a{
+    padding: 18px 30px 18px 17px;
+}
+.note .post .article .meta-bottom .share-group {
+    position: relative;
+}
+.note .post .article .meta-bottom .share-group>a{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border: 1px solid #dcdcdc;
+    border-radius: 50%;
+    background-color: #fff;
+    margin-left: 5px;
+}
+.note .post .article .meta-bottom .share-group>a>i{
+    font-size: 25px;
+}
+.note .post .article .meta-bottom .share-group a:hover{
+    background-color: rgb(248,248,248);
+}
+.note .post .article .meta-bottom .share-group .more-share{
+    width: auto;
+    line-height: 42px;
+    font-size: 14px;
+    padding: 4px 18px;
+    border-radius: 40px;
+    color: #969696!important;
+}
+.weibo{
+    color: red;
+}
+.weixin {
+    color: green;
+}
+.qq{
+    color: blue;
+}
+.note .post .article .meta-bottom .share-group .fenxiang {
+    position: absolute;
+    top: -155px;
+    right: -25px;
+    background-color: #fff;
+    box-shadow: -1px 2px 2px #ccc;
+    border: 1px solid #ccc;
+    padding: 5px 0;
+    color: #969696;
+    font-size: 14px;
+    border-radius: 6px;
+}
+.note .post .article .meta-bottom .share-group .fenxiang:before{
+    content: '';
+    position: absolute;
+    top: 135px;
+    left: 45%;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #ddd;
+}
+.note .post .article .meta-bottom .share-group .fenxiang .list-fenxiang a.fenxiang-list{
+    display: inline-block;
+    padding: 2px 15px!important;
+}
+.note .post .article .meta-bottom .share-group .fenxiang .list-fenxiang a.fenxiang-list i{
+    margin-right: 10px;
+}
+.fa-qq{
+    color: blue;
+}
+.fa-twitter{
+    color: rgb(0,170,236);
+}
+.fa-facebook{
+    color: rgb(68,96,160);
+}
+.fa-google{
+    color: rgb(250,63,45);
+}
+.fa-opencart{
+    color: rgb(48,135,29);
+}
 
 
 

@@ -100,8 +100,72 @@
                             为城市的不安和孤寂发声。微信公众号：得及
                         </div>
                     </div>
+                    <div class="meta-bottom">
+                        <div class="like" >
+                            <div class="btn like-group" ref="like" :class="{active:like}">
+                                <div class="btn-like" @click="btnColor" :class="{color:like}">
+                                    <a href="javascript:void(0)">
+                                        <i class="fa fa-heart-o"></i>
+                                        <span>喜欢</span>
+                                    </a>
+                                </div>
+                                <div class="modal-wrap" :class="{colors:like}">
+                                    <a>{{like_number}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="share-group">
+                            <a href="javascript:void(0)" v-b-tooltip.hover title="分享到微博">
+                                <i class="fa fa-weibo weibo"></i>
+                            </a>
+                            <a href="javascript:void(0)" v-b-tooltip.hover title="分享到微信">
+                                <i class="fa fa-weixin weixin"></i>
+                            </a>
+                            <a href="javascript:void(0)" v-b-tooltip.hover title="分享到QQ">
+                                <i class="fa fa-qq qq"></i>
+                            </a>
+                            <a href="javascript:void(0)" class="more-share" @focus="btnShow = true" @blur="btnShow=false" >
+                                更多分享
+                            </a>
+                            <div class="fenxiang" v-if="btnShow">
+                                <ul>
+                                    <li class="list-fenxiang">
+                                        <a href="javascript:void(0)" class="fenxiang-list">
+                                            <i class="fa fa-qq"></i>
+                                            <span>分享到QQ空间</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-fenxiang">
+                                        <a href="javascript:void(0)" class="fenxiang-list">
+                                            <i class="fa fa-twitter"></i>
+                                            <span>分享到Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-fenxiang">
+                                        <a href="javascript:void(0)" class="fenxiang-list">
+                                            <i class="fa fa-facebook"></i>
+                                            <span>分享到FaceBook</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-fenxiang">
+                                        <a href="javascript:void(0)" class="fenxiang-list">
+                                            <i class="fa fa-google"></i>
+                                            <span>分享到Google+</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-fenxiang">
+                                        <a href="javascript:void(0)" class="fenxiang-list">
+                                            <i class="fa fa-opencart"></i>
+                                            <span>分享到豆瓣</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!---->
+                <!--回复组件-->
+                <my-comment></my-comment>
                 <div></div>
             </div>
             <!--悬浮操作框-->
@@ -113,10 +177,10 @@
 </template>
 <script>
     import myHeader from  '../../components/myHeader.vue'
+    import myComment from  '../../components/myComment.vue'
     export default {
         data(){
             return {
-//                show:true
                 followObj:{
                     follow:true,
                     following:false
@@ -124,11 +188,15 @@
                 iconObj:{
                     'fa-plus-square-o':true,
                     'fa-check':false
-                }
+                },
+                like:false,
+                like_number:66,
+                btnShow:false
             }
         },
         components:{
-            myHeader
+            myHeader,
+            myComment
         },
         methods:{
             isFollow:function () {
@@ -139,6 +207,18 @@
                 this.iconObj['fa-check'] = !this.iconObj['fa-check']
                 this.$refs.guanzhu.innerHTML = word == "关注" ? '已关注' :'关注'
                 this.$refs.guanzhu2.innerHTML = word == "关注" ? '已关注' :'关注'
+            },
+            btnColor:function () {
+                let count = this.like_number
+
+                if(this.like == false){
+                    count = count + 1;
+                }else {
+                    count = count - 1
+                }
+                this.like_number = count
+                // 将最新的like_number 值发送给后台
+                this.like = !this.like
             },
             noFollow:function () {
                 let word = this.$refs.guanzhu.innerHTML
