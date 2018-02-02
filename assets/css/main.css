@@ -600,6 +600,82 @@ ul,ol,dl {
 .fa-opencart{
     color: rgb(48,135,29);
 }
+.comment-placeholder{
+    padding: 20px 0 30px 0;
+}
+.comment-placeholder .author{
+    margin-bottom: 15px;
+}
+.comment-placeholder .avatar {
+    width: 38px;
+    height: 38px;
+    background-color: #eaeaea;
+    border-radius: 50%;
+}
+.comment-placeholder .author .info{
+    display: inline-block;
+}
+.comment-placeholder .author .info .name{
+    width: 60px;
+    height: 15px;
+    margin-bottom: 6px;
+}
+.comment-placeholder .author .info .meta{
+    background-color: #eaeaea;
+    width: 120px;
+    height: 12px;
+}
+.comment-placeholder .title{
+    width: 100%;
+    height: 16px;
+    background-color: #eaeaea;
+    margin-bottom: 8px;
+    animation: loading 1s ease-in-out infinite;
+}
+.comment-placeholder .animated-delay{
+    animation: loading 1s ease-in-out -.5s infinite;
+}
+@keyframes loading {
+    0%{
+        width: 60%;
+    }
+    50%{
+        width: 100%;
+    }
+    100%{
+        width: 60%;
+    }
+}
+.comment-placeholder .tool-group{
+    font-size: 15px;
+    color: #eaeaea;
+    padding-top: 5px;
+}
+.comment-placeholder .tool-group i{
+    margin-right: 5px;
+}
+.comment-placeholder .tool-group .zan{
+    width: 40px;
+    height: 14px;
+    margin-right: 10px;
+    display: inline-block;
+    background-color: #eaeaea;
+}
+.note .post .comment-list .comment{
+    padding: 20px 0 30px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.note .post .comment-list .info{
+    display: inline-block;
+    vertical-align: middle;
+}
+.note .post .comment-list .info .name {
+    font-size: 15px;
+}
+.note .post .comment-list .info .meta{
+    font-size: 12px;
+    color: #969696;
+}
 
 
 
