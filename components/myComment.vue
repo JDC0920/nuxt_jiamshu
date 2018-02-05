@@ -110,7 +110,7 @@
                                 <span>{{subComment.create_at | formatDate}}</span>
                                 <a href="javascript:void(0)">
                                     <i class="fa fa-comment-o"></i>
-                                    <span @click="replys(index)">回复</span>
+                                    <span>回复</span>
                                 </a>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                                                     leaver-active-class="animate fadeOut">
                                             <!--表情-->
                                             <div v-if="emojiIndex.includes(index)" class="emoji-modal arrow-up">
-                                                <vue-emoji @select="selectSubEmoji" :index="index">
+                                                <vue-emoji @select="selectSubEmoji" ref="emoji">
 
                                                 </vue-emoji>
                                             </div>
@@ -700,14 +700,14 @@
             },
             showSubEmoji:function (value) {
                 if(this.emojiIndex.includes(value)){
-                    let index = this.emojiIndex.indexOf(value)
-                    this.emojiIndex.splice(index,1)
-                }else {
-                    this.emojiIndex.push(value)
+                    this.emojiIndex = [];
+                }else{
+                    this.emojiIndex = [];
+                    this.emojiIndex.push(value);
                 }
             },
-            selectSubEmoji:function (value) {
-                
+            selectSubEmoji:function (code) {
+                console.log(this.$refs.emoji);
             }
         },
 
