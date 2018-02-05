@@ -30,7 +30,6 @@
                         <a href="javascript:void(0)" class="cancel" @click="send=false">取消</a>
                     </div>
                 </transition>
-
             </form>
             <!--留言的列表-->
             <div id="normal-comment-list" class="normal-comment-list">
@@ -79,20 +78,85 @@
                                 <div class="meta">
                                     <span>
                                         {{comment.floor}}楼.
-                                        {{comment.create_at}}
+                                        {{comment.create_at | formatDate}}
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="comment-wrap"></div>
+                        <div class="comment-wrap">
+                            <p>{{comment.compiled_content}}</p>
+                            <div class="tool-group">
+                                <a href="javascript:void(0)">
+                                    <i class="fa fa-thumbs-o-up"></i>
+                                    <span>{{comment.like_count}}人点赞</span>
+                                </a>
+                                <a href="javascript:void(0)">
+                                    <i class="fa fa-comment-o"></i>
+                                    <span @click="reply(index)">回复</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="sub-comment-list"></div>
+                    <!--二级回复-->
+                    <div class="sub-comment-list" v-if="comment.children.length != 0">
+                        <div :id="'comment-'+subComment.id" v-for="(subComment,index) in comment.children" class="sub-comment">
+                            <p>
+                                <nuxt-link to="/u/123" class="abc">
+                                    {{subComment.user.nickname}}:
+                                </nuxt-link>
+                                <span v-html="subComment.compiled_content"></span>
+                            </p>
+                            <div class="sub-tool-group">
+                                <span>{{subComment.create_at | formatDate}}</span>
+                                <a href="javascript:void(0)">
+                                    <i class="fa fa-comment-o"></i>
+                                    <span @click="replys(index)">回复</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="more-comment">
+                            <a href="javascript:void(0)" class="add-comment-btn" @click="showSubCommentForm(index)">
+                                <i class="fa fa-pancil"></i>
+                                <span >添加新评论</span>
+                            </a>
+                        </div>
+                        <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="500">
+                            <form v-if="activeIndex.includes(index)">
+                            <textarea placeholder="写下你的评论"></textarea>
+                                <div class="write-function-block clearfix">
+                                    <div class="emoji-modal-wrap">
+                                        <a href="javascript:void(0)" class="emoji" @click="showSubEmoji(index)">
+                                            <i class="fa fa-smile-o"></i>
+                                        </a>
+                                        <transition :duration="200" enter-active-class="animate fadeIn"
+                                                    leaver-active-class="animate fadeOut">
+                                            <!--表情-->
+                                            <div v-if="emojiIndex.includes(index)" class="emoji-modal arrow-up">
+                                                <vue-emoji @select="selectSubEmoji" :index="index">
+
+                                                </vue-emoji>
+                                            </div>
+                                        </transition>
+                                    </div>
+                                    <div class="hint">
+                                        Ctrl+Enter 发表
+                                    </div>
+                                    <a href="javascript:void(0)" @click="sendSubCommentData" class="btn btn-send">发送</a>
+                                    <a href="javascript:void(0)" class="cancel" @click="closeSubComment(index)">取消</a>
+                                </div>
+                        </form>
+                        </transition>
+                    </div>
+                    <!--显示表单-->
                 </div>
             </div>
         </div>
     </div>
 </template>
 <style>
+    .form{
+        display: none;
+    }
     .fade-enter-active,.fade-leave-active {
         opacity: 1;
         transition: .3s;
@@ -123,7 +187,7 @@
         position: absolute;
         left: -48px;
     }
-    .note .post .comment-list .new-comment textarea {
+    .note .post .comment-list textarea {
         width: 100%;
         height: 80px;
         padding: 10px 15px;
@@ -136,36 +200,36 @@
         font-size: 13px;
         background-color: #f8f8f8;
     }
-    .note .post .comment-list .new-comment .emoji-modal-wrap {
+    .note .post .comment-list .emoji-modal-wrap {
         position: relative;
     }
-    .note .post .comment-list .new-comment .emoji{
+    .note .post .comment-list .emoji{
         float: left;
         margin-top: 14px;
     }
-    .note .post .comment-list .new-comment .emoji i{
+    .note .post .comment-list .emoji i{
         font-size: 25px;
         color: #969696;
     }
-    .note .post .comment-list .new-comment .emoji i:hover{
+    .note .post .comment-list .emoji i:hover{
         color: #333;
     }
-    .note .post .comment-list .new-comment .hint {
+    .note .post .comment-list .hint {
         float: left;
         margin: 20px 0 0 20px;
         font-size: 13px;
         color: #969696;
     }
-    .note .post .comment-list .new-comment .cancel{
+    .note .post .comment-list .cancel{
         float: right;
         font-size: 16px;
         margin: 18px 30px 0 0;
         color: #969696!important;
     }
-    .note .post .comment-list .new-comment .cancel:hover{
+    .note .post .comment-list .cancel:hover{
         color: #333!important;
     }
-    .note .post .comment-list .new-comment .btn-send{
+    .note .post .comment-list .btn-send{
         float: right;
         width: 78px;
         padding: 8px 18px;
@@ -176,10 +240,10 @@
         color: #fff!important;
         box-shadow: #3db922;
     }
-    .note .post .comment-list .new-comment .btn-send:hover{
+    .note .post .comment-list .btn-send:hover{
         background-color: #3db922;
     }
-    .note .post .comment-list .new-comment .emoji-modal-wrap .emoji-modal{
+    .note .post .comment-list .emoji-modal-wrap .emoji-modal{
         position: absolute;
         top: 50px;
         left: -48px;
@@ -191,7 +255,7 @@
         border-radius: 4px;
         box-shadow: 0 5px 25px rgba(0,0,0,0.1);
     }
-    .note .post .comment-list .new-comment .emoji-modal-wrap .arrow-up:after{
+    .note .post .comment-list .emoji-modal-wrap .arrow-up:after{
         content: '';
         display: inline-block;
         position: absolute;
@@ -234,6 +298,138 @@
     /*.note .post .comment-list .normal-comment-list .top-title .pull-right a:hover{*/
         /*color: #2f2f2f!important;*/
     /*}*/
+    .comment-placeholder{
+        padding: 20px 0 30px 0;
+    }
+    .comment-placeholder .author{
+        margin-bottom: 15px;
+    }
+    .comment-placeholder .avatar {
+        width: 38px;
+        height: 38px;
+        background-color: #eaeaea;
+        border-radius: 50%;
+    }
+    .comment-placeholder .author .info{
+        display: inline-block;
+    }
+    .comment-placeholder .author .info .name{
+        width: 60px;
+        height: 15px;
+        margin-bottom: 6px;
+    }
+    .comment-placeholder .author .info .meta{
+        background-color: #eaeaea;
+        width: 120px;
+        height: 12px;
+    }
+    .comment-placeholder .title{
+        width: 100%;
+        height: 16px;
+        background-color: #eaeaea;
+        margin-bottom: 8px;
+        animation: loading 1s ease-in-out infinite;
+    }
+    .comment-placeholder .animated-delay{
+        animation: loading 1s ease-in-out -.5s infinite;
+    }
+    @keyframes loading {
+        0%{
+            width: 60%;
+        }
+        50%{
+            width: 100%;
+        }
+        100%{
+            width: 60%;
+        }
+    }
+    .comment-placeholder .tool-group{
+        font-size: 15px;
+        color: #eaeaea;
+        padding-top: 5px;
+    }
+    .comment-placeholder .tool-group i{
+        margin-right: 5px;
+    }
+    .comment-placeholder .tool-group .zan{
+        width: 40px;
+        height: 14px;
+        margin-right: 10px;
+        display: inline-block;
+        background-color: #eaeaea;
+    }
+    .note .post .comment-list .comment{
+        padding: 20px 0 30px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .note .post .comment-list .info{
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .note .post .comment-list .info .name {
+        font-size: 15px;
+    }
+    .note .post .comment-list .info .meta{
+        font-size: 12px;
+        color: #969696;
+    }
+    .note .post .comment-list .comment p{
+        font-size: 16px;
+        margin: 10px 0;
+        line-height: 1.5;
+        word-break: break-word!important;
+    }
+    .note .post .comment-list .comment .tool-group a{
+        color: #969696!important;
+        margin-right: 10px;
+    }
+    .note .post .comment-list .comment .tool-group a i{
+        font-size: 18px;
+        margin-right: 5px;
+    }
+    .note .post .comment-list .comment .tool-group a span{
+        font-size: 14px;
+    }
+    .note .post .comment-list .sub-comment-list{
+        padding-left: 20px;
+        margin: 20px;
+        border-left: 2px solid #d9d9d9;
+    }
+    .note .post .comment-list .sub-comment {
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #f0f0f0;
+    }
+    .note .post .comment-list .sub-comment p{
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 5px;
+    }
+    .note .post .comment-list .sub-comment p a{
+        color: #3194d0!important;
+    }
+    .note .post .comment-list .sub-comment .sub-tool-group {
+        font-size: 12px;
+        color: #969696;
+    }
+    .note .post .comment-list .sub-comment .sub-tool-group a{
+        margin-left: 10px;
+    }
+    .note .post .comment-list .sub-comment .sub-tool-group a i{
+        margin-right: 5px;
+    }
+    .note .post .comment-list .more-comment {
+        margin-bottom: 30px;
+        font-size: 14px;
+        color: #969696;
+    }
+    .note .post .comment-list .more-comment a:hover{
+        color: #333;
+    }
+    .note .post .comment-list .more-comment i{
+        margin-right: 5px;
+    }
 </style>
 <script>
     import vueEmoji from '~/components/vueEmoji.vue'
@@ -244,6 +440,9 @@
                 send:false,
                 showEmoji:false,
                 value:'',
+                send_one:true,
+                activeIndex:[],
+                emojiIndex:[],
                 comments:[
                     {
                         id:19935725,
@@ -482,7 +681,35 @@
             },
             sendData:function () {
                 console.log('发送value值的数据给后端');
+            },
+            showSubCommentForm:function (value) {
+                if(this.activeIndex.includes(value)){
+                    let index = this.activeIndex.indexOf(value);
+                    this.activeIndex.splice(index,1)
+                }else {
+                    this.activeIndex.push(value)
+                }
+            },
+            sendSubCommentData:function (value) {
+                let index = this.activeIndex.indexOf(value);
+                this.activeIndex.splice(index,1)
+            },
+            closeSubComment:function (value) {
+                let index = this.activeIndex.indexOf(value);
+                this.activeIndex.splice(index,1)
+            },
+            showSubEmoji:function (value) {
+                if(this.emojiIndex.includes(value)){
+                    let index = this.emojiIndex.indexOf(value)
+                    this.emojiIndex.splice(index,1)
+                }else {
+                    this.emojiIndex.push(value)
+                }
+            },
+            selectSubEmoji:function (value) {
+                
             }
-        }
+        },
+
     }
 </script>
