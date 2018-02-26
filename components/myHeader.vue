@@ -11,10 +11,10 @@
                     <i class="fa fa-edit"></i>写文章
                 </nuxt-link>
                 <!--登录注册按钮-->
-                <nuxt-link to="/sign-up" class="btn sign-up">注册</nuxt-link>
-                <nuxt-link to="/sign-in" class="btn sign-in">登录</nuxt-link>
+                <!--<nuxt-link to="/sign-up" class="btn sign-up">注册</nuxt-link>-->
+                <!--<nuxt-link to="/sign-in" class="btn sign-in">登录</nuxt-link>-->
                 <!--如果用户登录，那么显示用户头像-->
-                <div style="display: none;" class="user"  @mouseover="userShow=true" @mouseleave="userShow=false">
+                <div class="user"  @mouseover="userShow=true" @mouseleave="userShow=false">
                     <div class="drop-down">
                         <nuxt-link to="/user" class="avatar">
                             <img src="../assets/img/default-avatar.jpg" />
@@ -78,31 +78,31 @@
                             <div v-show="notifyShow" class="drop-menu">
                                 <ul>
                                     <li>
-                                        <nuxt-link to="/">
+                                        <nuxt-link to="/o/review">
                                             <i class="fa fa-comment-o"></i>
                                             评论
                                         </nuxt-link>
                                     </li>
                                     <li>
-                                        <nuxt-link to="/">
+                                        <nuxt-link to="/o/jianxin">
                                             <i class="fa fa-envelope-open-o"></i>
                                             简信
                                         </nuxt-link>
                                     </li>
                                     <li>
-                                        <nuxt-link to="/">
+                                        <nuxt-link to="/o/submit">
                                             <i class="fa fa-upload"></i>
                                             投稿请求
                                         </nuxt-link>
                                     </li>
                                     <li>
-                                        <nuxt-link to="/">
+                                        <nuxt-link to="/o/zan">
                                             <i class="fa fa-heart-o"></i>
-                                            喜欢喝赞
+                                            喜欢和赞
                                         </nuxt-link>
                                     </li>
                                     <li>
-                                        <nuxt-link to="/">
+                                        <nuxt-link to="/o/attention">
                                             <i class="fa fa-user-o"></i>
                                             关注
                                         </nuxt-link>
@@ -193,6 +193,7 @@
     nav .user{
         position: relative;
         float: right;
+        z-index: 10000;
     }
     nav .user .avatar{
         position: relative;

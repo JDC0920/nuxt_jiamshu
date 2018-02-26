@@ -191,7 +191,8 @@
                 },
                 like:false,
                 like_number:66,
-                btnShow:false
+                btnShow:false,
+
             }
         },
         components:{

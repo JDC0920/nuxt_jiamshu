@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/jianshu.iml" filepath="$PROJECT_DIR$/.idea/jianshu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/nuxt_jiamshu-master.iml" filepath="$PROJECT_DIR$/.idea/nuxt_jiamshu-master.iml" />
     </modules>
   </component>
 </project>

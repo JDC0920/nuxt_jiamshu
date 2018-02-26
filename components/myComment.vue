@@ -6,7 +6,7 @@
                 <nuxt-link to="/u/123" class="avatar">
                     <img src="../assets/img/default-avatar.jpg" alt="">
                 </nuxt-link>
-                <textarea placeholder="写下你的评论" v-model="value" @focus="send=true"></textarea>
+                <textarea placeholder="写下你的评论" v-model="commentData" @focus="send=true"></textarea>
                 <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="500">
                     <div class="write-function-block clearfix" v-if="send">
                         <div class="emoji-modal-wrap">
@@ -90,39 +90,40 @@
                                     <i class="fa fa-thumbs-o-up"></i>
                                     <span>{{comment.like_count}}人点赞</span>
                                 </a>
-                                <a href="javascript:void(0)">
-                                    <i class="fa fa-comment-o"></i>
-                                    <span @click="reply(index)">回复</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--二级回复-->
-                    <div class="sub-comment-list" v-if="comment.children.length != 0">
-                        <div :id="'comment-'+subComment.id" v-for="(subComment,index) in comment.children" class="sub-comment">
-                            <p>
-                                <nuxt-link to="/u/123" class="abc">
-                                    {{subComment.user.nickname}}:
-                                </nuxt-link>
-                                <span v-html="subComment.compiled_content"></span>
-                            </p>
-                            <div class="sub-tool-group">
-                                <span>{{subComment.create_at | formatDate}}</span>
-                                <a href="javascript:void(0)">
+                                <a href="javascript:void(0)" @click="showSubCommentForm(index)">
                                     <i class="fa fa-comment-o"></i>
                                     <span>回复</span>
                                 </a>
                             </div>
                         </div>
-                        <div class="more-comment">
-                            <a href="javascript:void(0)" class="add-comment-btn" @click="showSubCommentForm(index)">
-                                <i class="fa fa-pancil"></i>
-                                <span >添加新评论</span>
-                            </a>
-                        </div>
-                        <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="500">
+                    </div>
+                    <!--二级回复-->
+                    <div class="sub-comment-list">
+                            <div v-if="comment.children.length != 0" :id="'comment-'+subComment.id"
+                                 v-for="(subComment,nindex) in comment.children" class="sub-comment" :key="nindex">
+                                <p>
+                                    <nuxt-link to="/u/123" class="abc">
+                                        {{subComment.user.nickname}}:
+                                    </nuxt-link>
+                                    <span v-html="subComment.compiled_content"></span>
+                                </p>
+                                <div class="sub-tool-group">
+                                    <span>{{subComment.create_at | formatDate}}</span>
+                                    <a href="javascript:void(0)" @click="showSubCommentAtName(nindex,index,subComment.user.nickname)">
+                                        <i class="fa fa-comment-o"></i>
+                                        <span>回复</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="more-comment" v-if="comment.children.length != 0">
+                                <a href="javascript:void(0)" class="add-comment-btn" @click="showSubCommentForm(index)">
+                                    <i class="fa fa-pancil"></i>
+                                    <span >添加新评论</span>
+                                </a>
+                            </div>
+                            <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="500">
                             <form v-if="activeIndex.includes(index)">
-                            <textarea placeholder="写下你的评论"></textarea>
+                            <textarea class="subCommentTextArea" placeholder="写下你的评论" v-model="subCommentList[index]" v-focus ref="content"></textarea>
                                 <div class="write-function-block clearfix">
                                     <div class="emoji-modal-wrap">
                                         <a href="javascript:void(0)" class="emoji" @click="showSubEmoji(index)">
@@ -176,6 +177,7 @@
         position: relative;
         margin-left: 48px;
         margin-bottom: 20px;
+        padding: 5px 0;
     }
     .note .post .comment-list .avatar{
         width: 38px;
@@ -392,7 +394,7 @@
         font-size: 14px;
     }
     .note .post .comment-list .sub-comment-list{
-        padding-left: 20px;
+        padding: 0 0 0 20px;
         margin: 20px;
         border-left: 2px solid #d9d9d9;
     }
@@ -439,7 +441,7 @@
             return{
                 send:false,
                 showEmoji:false,
-                value:'',
+                commentData:'',
                 send_one:true,
                 activeIndex:[],
                 emojiIndex:[],
@@ -667,8 +669,29 @@
                                 compiled_content:'好有意思。',
                             }
                         ],
+                    },
+                    {
+                        id:19935796,
+                        floor:5,
+                        liked:false,
+                        like_count:66,
+                        note_id:23054702,
+                        user_id:6780849,
+                        user:{
+                            avatar:'/default-avatar.jpg',
+                            id:6780849,
+                            is_author:false,
+                            nickname:'二十岁的更拽',
+                            slug:'7edb3d2d9c7c'
+                        },
+                        create_at:'2018-01-25T09:40:18.000+08:00',
+                        children_count:4,
+                        compiled_content:'作为一名混凝土方块移动工程师，我一直以3000的月薪骄傲，甚至一度迷失自我。。。看了楼主这篇文章，我找回了初心',
+                        children:[],
                     }
-                ]
+                ],
+                subCommentList:[],
+                oldIndex:null,
             }
         },
         components:{
@@ -677,7 +700,7 @@
         methods:{
             selectEmoji:function (code) {
                 this.showEmoji = false;
-                this.value += code;
+                this.commentData += code;
             },
             sendData:function () {
                 console.log('发送value值的数据给后端');
@@ -685,18 +708,25 @@
             showSubCommentForm:function (value) {
                 if(this.activeIndex.includes(value)){
                     let index = this.activeIndex.indexOf(value);
-                    this.activeIndex.splice(index,1)
+                    this.activeIndex.splice(index,1);
+//                    console.log(index)
                 }else {
-                    this.activeIndex.push(value)
+                    //清除表单内容
+                    this.subCommentList[value] = '';
+                    //表情关掉
+                    this.emojiIndex = [];
+                    this.activeIndex.push(value);
                 }
             },
             sendSubCommentData:function (value) {
                 let index = this.activeIndex.indexOf(value);
                 this.activeIndex.splice(index,1)
+                //value是下标
+                console.log(this.subCommentList[value])
             },
             closeSubComment:function (value) {
                 let index = this.activeIndex.indexOf(value);
-                this.activeIndex.splice(index,1)
+                this.activeIndex.splice(index,1);
             },
             showSubEmoji:function (value) {
                 if(this.emojiIndex.includes(value)){
@@ -707,9 +737,58 @@
                 }
             },
             selectSubEmoji:function (code) {
-                console.log(this.$refs.emoji);
+                //获取表情，将表情放入到对应的表单中
+//                console.log(code);
+                //获取到打开列表下标
+//                console.log(this.emojiIndex[0]);
+                //当前下标
+                let index = this.emojiIndex[0];
+                if(this.subCommentList[index] == null){
+                    this.subCommentList[index] = ''
+                }
+                this.subCommentList[index] += code;
+                //关闭emoji
+                this.emojiIndex = [];
+                //聚焦一下
+                let num = this.activeIndex.indexOf(index)
+                this.$refs.content[num].focus()
+            },
+            //二级回复
+            showSubCommentAtName:function (nvalue,value,name) {
+                if(this.oldIndex == nvalue){
+                    //第二次点击
+                    this.activeIndex.splice(this.activeIndex.indexOf(value),1);
+                    this.subCommentList[value] = '';
+                    this.oldIndex = null;
+                }else{
+                    //第一次点击
+                    this.subCommentList[value] = '';
+                    if(!this.activeIndex.includes(value)){
+                        this.activeIndex.push(value);
+                    }
+                    this.emojiIndex= [];
+                    this.subCommentList[value] += `@${name} `;
+                    this.oldIndex = nvalue;
+                }
             }
         },
+        directives:{
+            //钩子函数 bind update inserted nubind componentUpdate
+            //参数 el binding vnode oldVnode
+            'focus':{
+                bind:function (el,binding,vnode,oldVnode) {
+                    el.focus();
+                },
+                inserted:function (el) {
+                    el.focus()
+                }
+            }
+        },
+        watch:{
+            subCommentList:function (val) {
+                console.log(val)
+            }
+        }
 
     }
 </script>
