@@ -90,7 +90,7 @@
                                     <i class="fa fa-thumbs-o-up"></i>
                                     <span>{{comment.like_count}}人点赞</span>
                                 </a>
-                                <a href="javascript:void(0)" @click="showSubCommentForm(index)">
+                                <a href="javascript:void(0)" @click="showSubCommentForm(index,comment.id,'')">
                                     <i class="fa fa-comment-o"></i>
                                     <span>回复</span>
                                 </a>
@@ -109,20 +109,20 @@
                                 </p>
                                 <div class="sub-tool-group">
                                     <span>{{subComment.create_at | formatDate}}</span>
-                                    <a href="javascript:void(0)" @click="showSubCommentAtName(nindex,index,subComment.user.nickname)">
+                                    <a href="javascript:void(0)" @click="showSubCommentForm(index,subComment.id,subComment.user.nickname)">
                                         <i class="fa fa-comment-o"></i>
                                         <span>回复</span>
                                     </a>
                                 </div>
                             </div>
                             <div class="more-comment" v-if="comment.children.length != 0">
-                                <a href="javascript:void(0)" class="add-comment-btn" @click="showSubCommentForm(index)">
+                                <a href="javascript:void(0)" class="add-comment-btn" @click="showSubCommentForm(index,null,'')">
                                     <i class="fa fa-pancil"></i>
                                     <span >添加新评论</span>
                                 </a>
                             </div>
                             <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="500">
-                            <form v-if="activeIndex.includes(index)">
+                            <form v-show="activeIndex.includes(index)">
                             <textarea class="subCommentTextArea" placeholder="写下你的评论" v-model="subCommentList[index]" v-focus ref="content"></textarea>
                                 <div class="write-function-block clearfix">
                                     <div class="emoji-modal-wrap">
@@ -142,7 +142,7 @@
                                     <div class="hint">
                                         Ctrl+Enter 发表
                                     </div>
-                                    <a href="javascript:void(0)" @click="sendSubCommentData" class="btn btn-send">发送</a>
+                                    <a href="javascript:void(0)" @click="sendSubCommentData(index)" class="btn btn-send">发送</a>
                                     <a href="javascript:void(0)" class="cancel" @click="closeSubComment(index)">取消</a>
                                 </div>
                         </form>
@@ -559,7 +559,7 @@
                         ],
                     },
                     {
-                        id:19935725,
+                        id:19935788,
                         floor:4,
                         liked:true,
                         like_count:66,
@@ -615,7 +615,7 @@
                         ],
                     },
                     {
-                        id:19935796,
+                        id:19935790,
                         floor:5,
                         liked:false,
                         like_count:66,
@@ -671,7 +671,7 @@
                         ],
                     },
                     {
-                        id:19935796,
+                        id:19935799,
                         floor:5,
                         liked:false,
                         like_count:66,
@@ -692,10 +692,17 @@
                 ],
                 subCommentList:[],
                 oldIndex:null,
+                id:[],
             }
         },
         components:{
             vueEmoji
+        },
+        mounted:function(){
+            for(var i=0;i<this.comments.length;i++){
+                this.id.push('');
+            }
+//            console.log(this.id)
         },
         methods:{
             selectEmoji:function (code) {
@@ -705,28 +712,41 @@
             sendData:function () {
                 console.log('发送value值的数据给后端');
             },
-            showSubCommentForm:function (value) {
-                if(this.activeIndex.includes(value)){
-                    let index = this.activeIndex.indexOf(value);
-                    this.activeIndex.splice(index,1);
-//                    console.log(index)
-                }else {
+            showSubCommentForm:function (value,id,name) {
+                if(this.id[value] == id){
+                    //第二次隐藏
+                    this.activeIndex.splice(this.activeIndex.indexOf(value),1);
+                    this.id[value] = '';
+                }else{
+                    this.id[value] = id;
+                    //第一次显示
                     //清除表单内容
                     this.subCommentList[value] = '';
                     //表情关掉
                     this.emojiIndex = [];
-                    this.activeIndex.push(value);
+                    if(!this.activeIndex.includes(value)){
+                        this.activeIndex.push(value);
+                    }
+                    // 判断用户名是否存在，如果存在添加
+                    if(name != ''){
+                        this.subCommentList[value] += `@${name} `;
+                    }
+                    //聚焦一下
+                    this.$refs.content[this.activeIndex.indexOf(value)].focus()
                 }
+//                console.log(this.id[value])
             },
             sendSubCommentData:function (value) {
                 let index = this.activeIndex.indexOf(value);
-                this.activeIndex.splice(index,1)
+                this.activeIndex.splice(index,1);
+                this.id[value] = '';
                 //value是下标
-                console.log(this.subCommentList[value])
+//                console.log(this.subCommentList[value])
             },
             closeSubComment:function (value) {
                 let index = this.activeIndex.indexOf(value);
                 this.activeIndex.splice(index,1);
+                this.id[value] = '';
             },
             showSubEmoji:function (value) {
                 if(this.emojiIndex.includes(value)){
@@ -753,24 +773,6 @@
                 let num = this.activeIndex.indexOf(index)
                 this.$refs.content[num].focus()
             },
-            //二级回复
-            showSubCommentAtName:function (nvalue,value,name) {
-                if(this.oldIndex == nvalue){
-                    //第二次点击
-                    this.activeIndex.splice(this.activeIndex.indexOf(value),1);
-                    this.subCommentList[value] = '';
-                    this.oldIndex = null;
-                }else{
-                    //第一次点击
-                    this.subCommentList[value] = '';
-                    if(!this.activeIndex.includes(value)){
-                        this.activeIndex.push(value);
-                    }
-                    this.emojiIndex= [];
-                    this.subCommentList[value] += `@${name} `;
-                    this.oldIndex = nvalue;
-                }
-            }
         },
         directives:{
             //钩子函数 bind update inserted nubind componentUpdate
